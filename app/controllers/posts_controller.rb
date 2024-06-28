@@ -1,12 +1,13 @@
 class PostsController < ApplicationController
   def index
-    @user = User.find(params[:user_id])
-    @posts = Post.includes(:author, :comments).where(author_id: @user)
+    @user = User.includes(:posts).find(params[:user_id])
+    @posts = @user.posts.includes(:comments)
   end
 
   def show
-    @user = User.find(params[:user_id])
-    @post = Post.includes(:comments, :likes).find_by(author_id: @user, id: params[:id])
+    @user = User.includes(posts: :comments).find(params[:user_id])
+    @post = Post.find(params[:id])
+    @posts = @user.posts
   end
 
   def new
@@ -26,12 +27,6 @@ class PostsController < ApplicationController
     end
   end
 
-  def destroy
-    @post = Post.find(params[:id])
-    authorize! :destroy, @post
-    @post.destroy
-    redirect_to posts_path
-  end
 
   private
 
