@@ -6,8 +6,12 @@ class Ability
     if user.admin?
       can :manage, :all
     else
-      can :read, :all
+authorization
       can %i[update destroy], Post, author_id: user.id
+
+      can :manage, Post, author_id: user.id
+      can :manage, Comment, user_id: user.id
+
     end
   end
 end

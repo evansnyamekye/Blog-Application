@@ -2,6 +2,10 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
   has_many :posts, foreign_key: :author_id, dependent: :destroy
   has_many :likes, dependent: :destroy
@@ -19,5 +23,9 @@ class User < ApplicationRecord
 
   def three_recent_posts
     posts.last(3)
+  end
+
+  def generate_token
+    self.token = SecureRandom.base58(30)
   end
 end
