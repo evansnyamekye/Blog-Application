@@ -6,6 +6,9 @@
     </div>
     <div class="user">
       <h2><%= @user.name %></h2>
+
+      <p><strong>Number of Posts::memo:</strong> <%= @user.posts.count %></p>
+
       <p><strong>Number of Posts</strong> <%= @user.posts.count %></p>
     </div>
     <% if @user == current_user %>
@@ -38,6 +41,7 @@
     <div class="user">
       <h2><%= @user.name %></h2>
       <p><strong>Number of Posts:📝</strong> <%= @user.posts.count %></p>
+ develop
     </div>
   </div>
   <div class="user_bio">
@@ -46,6 +50,15 @@
   </div>
   <% @user.three_recent_posts.each_with_index do |post, index| %>
   <div class="post">
+
+    <h4>:memo:Post<%= index+1  %>: <%= link_to post.title, user_post_path(@user, post) %></h4>
+    <p><%= post.text %></p>
+    <p class="count">Comments::speech_balloon:<%= post.comments.count %> | Likes::memo:<%= post.likes.count %></p>
+  </div>
+<% end %>
+  <%= link_to "See all posts :memo:", user_posts_path(@user), class: 'button' %>
+</div>
+
   <h4>📝Post<%= index+1  %>: <%= link_to post.title, user_post_path(@user, post) %></h4>
     <p><%= post.text %></p>
     <p class="count">Comments:💬<%= post.comments.count %> | Likes:📝<%= post.likes.count %></p>
@@ -53,4 +66,5 @@
 <% end %>
 <%= link_to "See all posts 📝", user_posts_path(@user), class: 'button' %>
 </div>
+
 
